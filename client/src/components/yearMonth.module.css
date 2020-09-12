@@ -1,0 +1,12 @@
+.flexRowStyle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.select {
+  width: 150px;
+  height: 37px;
+  margin: 4px;
+}
