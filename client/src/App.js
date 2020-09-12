@@ -74,8 +74,6 @@ export default function App() {
 
   const handleYearMonthChange = (event) => {
     let yearMonth = convertNumericMonth(event.target.value);
-
-    console.log(yearMonth);
     setSelectedYearMonth(yearMonth);
   };
 
@@ -90,9 +88,9 @@ export default function App() {
         handleYearMonthChange={handleYearMonthChange}
       />
 
-      <Resume />
-
       {allTransactions.length === 0 && <Spinner />}
+
+      {allTransactions.length > 0 && <Resume transactions={allTransactions} />}
 
       {allTransactions.length > 0 && (
         <TransactionsControl
