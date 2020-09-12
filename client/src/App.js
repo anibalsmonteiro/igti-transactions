@@ -38,6 +38,7 @@ export default function App() {
     let index = item.substring(5, 8);
 
     index = months.findIndex((month) => month === index);
+    index++;
     let month = index < 10 ? `0${index}` : `${index}`;
 
     let year = item.substring(0, 4);
@@ -74,6 +75,7 @@ export default function App() {
   const handleYearMonthChange = (event) => {
     let yearMonth = convertNumericMonth(event.target.value);
 
+    console.log(yearMonth);
     setSelectedYearMonth(yearMonth);
   };
 
