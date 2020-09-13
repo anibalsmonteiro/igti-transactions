@@ -9,3 +9,20 @@
    border-radius: 5px;
    font-weight: 500;
 }
+
+.flexRowTitle {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   border-radius: 5px;
+   font-weight: 500;
+}
+
+.title {
+   font-size: 1.5rem;
+}
+
+.errorMessage {
+   color: red;
+}

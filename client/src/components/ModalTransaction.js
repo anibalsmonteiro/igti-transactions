@@ -10,6 +10,7 @@ export default function ModalTransaction({
    selectedTransaction,
 }) {
    const {
+      _id,
       category,
       description,
       value,
@@ -60,7 +61,16 @@ export default function ModalTransaction({
    const handleFormSubmit = (event) => {
       event.preventDefault();
 
-      console.log('gravou');
+      const formData = {
+         _id,
+         newCategory: transactionCategory,
+         newDescription: transactionDescription,
+         newValue: transactionValue,
+         newType: transactionType,
+         newDate: transactionDate,
+      };
+
+      onSave(formData);
    };
 
    const handleTransactionChange = ({ target }) => {
@@ -82,9 +92,23 @@ export default function ModalTransaction({
       if (id === 'inputDate') setTransactionDate(value);
    };
 
+   const handleModalClose = () => {
+      onClose(null);
+   };
+
    return (
       <div>
          <Modal isOpen={true}>
+            <div className={css.flexRowTitle}>
+               <span className={css.title}>Transactions</span>
+               <button
+                  className="waves-effect waves-light btn red dark-4"
+                  onClick={handleModalClose}
+               >
+                  X
+               </button>
+            </div>
+
             <form onSubmit={handleFormSubmit}></form>
 
             <div className={css.flexRow}>
@@ -152,13 +176,23 @@ export default function ModalTransaction({
                   id="inputValue"
                   type="number"
                   value={transactionValue}
-                  min={0}
                   step="1"
                   onChange={handleTransactionChange}
                />
                <label className="active" htmlFor="inputValue">
                   Valor
                </label>
+            </div>
+
+            <div className={css.flexRowTitle}>
+               <button
+                  className="waves-effect waves-light btn"
+                  disabled={errorMessage.trim() !== ''}
+                  onClick={handleFormSubmit}
+               >
+                  Gravar
+               </button>
+               <span className={css.errorMessage}>{errorMessage}</span>
             </div>
          </Modal>
       </div>

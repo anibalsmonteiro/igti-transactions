@@ -9,74 +9,83 @@ const TransactionModel = require('../models/TransactionModel');
 const transactionServices = {};
 
 transactionServices.create = async (req, res) => {
-  try {
-    const transaction = new TransactionModel(req.body);
-    await transaction.save();
+   try {
+      const transaction = new TransactionModel(req.body);
+      await transaction.save();
 
-    res.status(200).send({ message: 'Lançamento inserido com sucesso' });
-  } catch (err) {
-    res
-      .status(500)
-      .send({ message: err.message || 'Algum erro ocorreu ao salvar' });
-  }
+      res.status(200).send({ message: 'Lançamento inserido com sucesso' });
+   } catch (err) {
+      res.status(500).send({
+         message: err.message || 'Algum erro ocorreu ao salvar',
+      });
+   }
 };
 
 transactionServices.findAllByPeriod = async (req, res) => {
-  try {
-    const period = req.params.period;
-    const transactions = await TransactionModel.find({ yearMonth: period });
+   const { description } = req.query;
 
-    res.status(200).send(transactions);
-  } catch (err) {
-    res.status(500).send({
-      message: err.message || 'Algum erro ocorreu ao buscar as transações',
-    });
-  }
+   var condition = description
+      ? { description: { $regex: new RegExp(description), $options: 'i' } }
+      : {};
+
+   try {
+      const period = req.params.period;
+
+      const transactions = await TransactionModel.find({
+         $and: [{ yearMonth: period }, condition],
+      });
+
+      res.status(200).send(transactions);
+   } catch (err) {
+      res.status(500).send({
+         message: err.message || 'Algum erro ocorreu ao buscar as transações',
+      });
+   }
 };
 
 transactionServices.findOne = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const transaction = await TransactionModel.findById({ _id: id });
+   try {
+      const id = req.params.id;
+      const transaction = await TransactionModel.findById({ _id: id });
 
-    if (!transaction) {
-      res.status(404).send();
-    }
+      if (!transaction) {
+         res.status(404).send();
+      }
 
-    res.status(200).send(transaction);
-  } catch (err) {
-    res.status(500).send({
-      message: err.message || 'Algum erro ocorreu ao buscar a transação',
-    });
-  }
+      res.status(200).send(transaction);
+   } catch (err) {
+      res.status(500).send({
+         message: err.message || 'Algum erro ocorreu ao buscar a transação',
+      });
+   }
 };
 
 transactionServices.update = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const transaction = await TransactionModel.findByIdAndUpdate(
-      { _id: id },
-      req.body,
-      { new: true }
-    );
+   try {
+      const id = req.params.id;
+      const transaction = await TransactionModel.findByIdAndUpdate(
+         { _id: id },
+         req.body,
+         { new: true }
+      );
 
-    res.status(200).send(transaction);
-  } catch (err) {
-    res.status(500).send({
-      message: err.message || 'Algum erro ocorreu ao atualizar a transação',
-    });
-  }
+      res.status(200).send(transaction);
+   } catch (err) {
+      res.status(500).send({
+         message: err.message || 'Algum erro ocorreu ao atualizar a transação',
+      });
+   }
 };
 
 transactionServices.remove = async (req, res) => {
-  try {
-    const id = req.params.id;
-    await TransactionModel.findByIdAndRemove({ _id: id });
+   try {
+      const id = req.params.id;
+      await TransactionModel.findByIdAndRemove({ _id: id });
 
-    res.status(200).send({ message: 'Transação excluída com sucesso' });
-  } catch (err) {
-    res.status(500).send(false);
-  }
+      res.status(200).send({ message: 'Transação excluída com sucesso' });
+   } catch (err) {
+      res.status(500).send(false);
+   }
 };
 
 module.exports = transactionServices;
