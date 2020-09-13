@@ -6,8 +6,8 @@
   justify-content: space-between;
   border: 1px solid lightgrey;
   border-radius: 5px;
-  font-weight: 500;
   margin-bottom: 5px;
+  font-family: monospace;
 }
 
 .income {
@@ -16,4 +16,22 @@
 
 .expense {
   background-color: lightpink;
+}
+
+.day {
+  font-weight: bolder;
+  font-size: 1.1rem;
+  width: 5%;
+  margin-left: 5px;
+}
+
+.category {
+  font-weight: bolder;
+  font-size: 1.1rem;
+}
+
+.value {
+  width: 30%;
+  text-align: right;
+  margin-right: 20px;
 }

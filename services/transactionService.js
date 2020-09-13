@@ -75,9 +75,7 @@ transactionServices.remove = async (req, res) => {
 
     res.status(200).send({ message: 'Transação excluída com sucesso' });
   } catch (err) {
-    res.status(500).send({
-      message: err.message || 'Algum erro ocorreu ao excluir a transação',
-    });
+    res.status(500).send(false);
   }
 };
 

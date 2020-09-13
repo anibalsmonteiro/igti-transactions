@@ -18,6 +18,7 @@ async function getAllTransactions(yearMonth) {
     };
   });
 
+  transactions.sort((a, b) => b.type.localeCompare(a.type));
   transactions.sort((a, b) => a.yearMonthDay.localeCompare(b.yearMonthDay));
 
   return transactions;
@@ -33,9 +34,14 @@ async function updateTransaction(transaction) {
   return response.data;
 }
 
-async function deleteTransaction(transaction) {
-  const response = await axios.delete(`${API_URL}/${transaction.id}`);
-  return response.data;
+async function deleteTransaction(id) {
+  let res = '';
+  try {
+    res = await axios.delete(`${API_URL}${id}`);
+  } catch (err) {
+    res = 500;
+  }
+  return res;
 }
 
 // async function getValidationFromTransactionType(transactionType) {

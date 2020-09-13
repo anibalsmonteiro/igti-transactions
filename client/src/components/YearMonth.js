@@ -1,6 +1,10 @@
 import React from 'react';
 
-export default function YearMonth({ comboList, handleYearMonthChange }) {
+export default function YearMonth({
+  comboList,
+  currentYearMonth,
+  handleYearMonthChange,
+}) {
   function convertStringMonth(item) {
     let index = item.substring(5, 7);
     //prettier-ignore
@@ -23,6 +27,7 @@ export default function YearMonth({ comboList, handleYearMonthChange }) {
         className="browser-default"
         style={css.select}
         onChange={handleYearMonthChange}
+        defaultValue={convertStringMonth(currentYearMonth)}
       >
         {comboList.map((item, index) => {
           return <option key={index}>{convertStringMonth(item)}</option>;

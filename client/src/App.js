@@ -46,10 +46,22 @@ export default function App() {
     return `${year}-${month}`;
   }
 
+  const getCurrentYearMonth = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    let month = currentDate.getMonth() + 1;
+
+    month = month < 10 ? `0${month}` : `${month}`;
+
+    return `${year}-${month}`;
+  };
+
+  const currentYearMonth = getCurrentYearMonth();
+
   const comboList = populateComboList();
-  const [selectedYearMonth, setSelectedYearMonth] = useState('2020-09');
+  const [selectedYearMonth, setSelectedYearMonth] = useState(currentYearMonth);
   const [allTransactions, setAllTransactions] = useState([]);
-  // const [selectedTransaction, setselectedTransaction] = useState({});
+  //const [selectedTransaction, setselectedTransaction] = useState({});
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -64,12 +76,30 @@ export default function App() {
     getTransactions();
   }, [selectedYearMonth]);
 
-  const handleDelete = () => {
-    console.log('handleDelete');
+  const handleDelete = async (id) => {
+    const isDeleted = await api.deleteTransaction(id);
+
+    if (isDeleted.status === 200) {
+      const deletedTransactionIndex = allTransactions.findIndex(
+        (transaction) => transaction._id === id
+      );
+
+      if (deletedTransactionIndex >= 0) {
+        const updatedTransactions = Object.assign([], allTransactions);
+
+        updatedTransactions.splice(deletedTransactionIndex, 1);
+
+        setAllTransactions(updatedTransactions);
+      }
+    }
   };
 
-  const handlePersist = () => {
-    console.log('handlePersist');
+  const handlePersist = (id) => {
+    if (id) {
+      console.log('handleEdit');
+    } else {
+      console.log('handleInsert');
+    }
   };
 
   const handleYearMonthChange = (event) => {
@@ -84,7 +114,7 @@ export default function App() {
 
       <YearMonth
         comboList={comboList}
-        yearMonth={selectedYearMonth}
+        currentYearMonth={selectedYearMonth}
         handleYearMonthChange={handleYearMonthChange}
       />
 

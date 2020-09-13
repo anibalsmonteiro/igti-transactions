@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const routes = require('./routes/routes');
 const path = require('path');
 const dotenv = require('dotenv');
-const TransactionModel = require('./models/TransactionModel.js');
 
 /**
  * Faz a leitura do arquivo
