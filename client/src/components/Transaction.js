@@ -21,10 +21,16 @@ export default function Transaction({ onActionClick, transaction }) {
         <div className={css.value}>{formatNumber(value)}</div>
 
         <div style={{ width: '8%' }}>
-          <Action id={_id} type={'edit'} onActionClick={onActionClick}></Action>
+          <Action
+            id={_id}
+            type={'edit'}
+            currentTransaction={transaction}
+            onActionClick={onActionClick}
+          ></Action>
           <Action
             id={_id}
             type={'delete'}
+            currentTransaction={transaction}
             onActionClick={onActionClick}
           ></Action>
         </div>

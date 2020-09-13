@@ -6,6 +6,7 @@ import TransactionsControl from './components/TransactionsControl';
 import * as api from './api/apiService';
 import Spinner from './components/Spinner';
 import M from 'materialize-css';
+import ModalTransaction from './components/ModalTransaction';
 
 export default function App() {
   useEffect(() => {
@@ -57,12 +58,12 @@ export default function App() {
   };
 
   const currentYearMonth = getCurrentYearMonth();
-
   const comboList = populateComboList();
+
   const [selectedYearMonth, setSelectedYearMonth] = useState(currentYearMonth);
   const [allTransactions, setAllTransactions] = useState([]);
-  //const [selectedTransaction, setselectedTransaction] = useState({});
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTransaction, setselectedTransaction] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const getTransactions = async () => {
@@ -94,12 +95,20 @@ export default function App() {
     }
   };
 
-  const handlePersist = (id) => {
-    if (id) {
-      console.log('handleEdit');
+  const handlePersist = (transaction) => {
+    setselectedTransaction(transaction);
+    setIsModalOpen(true);
+
+    if (transaction) {
     } else {
       console.log('handleInsert');
     }
+  };
+
+  const handlePersistData = () => {};
+
+  const handleClose = () => {
+    setIsModalOpen(false);
   };
 
   const handleYearMonthChange = (event) => {
@@ -116,6 +125,7 @@ export default function App() {
         comboList={comboList}
         currentYearMonth={selectedYearMonth}
         handleYearMonthChange={handleYearMonthChange}
+        isModalOpen={isModalOpen}
       />
 
       {allTransactions.length === 0 && <Spinner />}
@@ -125,8 +135,17 @@ export default function App() {
       {allTransactions.length > 0 && (
         <TransactionsControl
           transactions={allTransactions}
+          isModalOpen={isModalOpen}
           onDelete={handleDelete}
           onPersist={handlePersist}
+        />
+      )}
+
+      {isModalOpen && (
+        <ModalTransaction
+          onSave={handlePersistData}
+          onClose={handleClose}
+          selectedTransaction={selectedTransaction}
         />
       )}
     </div>

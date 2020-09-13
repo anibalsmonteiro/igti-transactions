@@ -7,12 +7,13 @@ export default function TransactionsControl({
   transactions,
   onDelete,
   onPersist,
+  isModalOpen,
 }) {
-  const handleActionClick = (id, type) => {
+  const handleActionClick = (id, type, transaction) => {
     if (!type) {
       onPersist(0);
     } else if (type === 'edit') {
-      onPersist(id);
+      onPersist(transaction);
     }
     if (type === 'delete') {
       onDelete(id);
@@ -23,16 +24,18 @@ export default function TransactionsControl({
     <div>
       <div className={css.flexRow}>
         <div className="input-field" style={{ width: '80%' }}>
-          <input placeholder="Filtro" id="last_name" type="text" />
+          <input placeholder="Filtro" id="searchText" type="text" />
         </div>
 
-        <button
-          className="waves-effect waves-light btn-small"
-          style={{ marginLeft: '10px', width: '200px' }}
-          onClick={handleActionClick}
-        >
-          <i className="material-icons left">add</i>NOVO LANÇAMENTO
-        </button>
+        {!isModalOpen && (
+          <button
+            className="waves-effect waves-light btn-small"
+            style={{ marginLeft: '10px', width: '200px' }}
+            onClick={handleActionClick}
+          >
+            <i className="material-icons left">add</i>NOVO LANÇAMENTO
+          </button>
+        )}
       </div>
 
       {transactions.map((transaction) => {
