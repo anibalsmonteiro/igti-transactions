@@ -184,23 +184,6 @@ export default function App() {
       console.log(filteredTransactions);
    };
 
-   //  const handleChangeFilter = (newText) => {
-   //     setUserFilter(newText);
-
-   //     const filterLowerCase = newText.toLowerCase();
-
-   //     const filteredCountries = allCountries.filter((country) => {
-   //        return country.filterName.includes(filterLowerCase);
-   //     });
-
-   //     const filteredPopulation = calculateTotalPopulationFrom(
-   //        filteredCountries
-   //     );
-
-   //     setFilteredCountries(filteredCountries);
-   //     setFilteredPopulation(filteredPopulation);
-   //  };
-
    return (
       <div className={'container'}>
          <h1 style={css.h1}>Bootcamp Full Stack - Desafio Final</h1>
